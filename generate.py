@@ -66,16 +66,13 @@ def test_loop(model, tokenizer, test):
     for test_i in range(test_len):
         observation = test[test_i]
         
-        inputs = tokenizer(observation, return_tensors="pt")
+        inputs = tokenizer(observation[:-1], return_tensors="pt")
         inputs = inputs.to(device)
-        outputs = model.generate(**inputs, max_length=len(inputs['input_ids'][0]) + 10, pad_token_id=tokenizer.eos_token_id)
+        outputs = model.generate(**inputs, max_length=len(inputs['input_ids'][0]) + 5, pad_token_id=tokenizer.eos_token_id)
 
         tokens = tokenizer.decode(outputs[0], skip_special_tokens=True).split(' ')
         
-        pred_index = max_choice(list(reversed(tokens)))
-        if pred_index == -float('inf'):
-          continue
-        pred = tokens[pred_index]
+        pred = tokens[-1]
         real = observation[-1]
         # print('PRED: ', pred)
         # print('REAL: ', real)
@@ -91,7 +88,6 @@ def test_loop(model, tokenizer, test):
         
     average_accuracy = running_accuracy / test_len
     return average_accuracy
-    # print(f"Average Accuracy: {average_accuracy}")
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -168,7 +164,7 @@ def main():
 
     # Add code to fine-tune and test your MCQA classifier.
     # Use to toggle between training and testing
-    
+
     is_training = False
     is_zero_shot = False
 
