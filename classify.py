@@ -190,9 +190,9 @@ def main():
 
     # Add code to fine-tune and test your MCQA classifier.
     # Use to toggle between training and testing
-    
+
     is_training = False
-    is_zero_shot = True
+    is_zero_shot = False
 
     if is_training:
         train_loop(model, linear, optimizer, criterion, tokenizer, train, 4, 5)
