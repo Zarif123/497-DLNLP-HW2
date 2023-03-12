@@ -39,26 +39,6 @@ def train_loop(model, optimizer, tokenizer, train, num_choices, epochs):
 
         torch.save(model.state_dict(), 'generate.pth')
 
-def max_choice(tokens):
-  try:
-    a_index = tokens.index('A')
-  except ValueError :
-    a_index = -float('inf')
-  try:
-    b_index = tokens.index('B')
-  except ValueError :
-    b_index = -float('inf')
-  try:
-    c_index = tokens.index('C')
-  except ValueError :
-    c_index = -float('inf')
-  try:
-    d_index = tokens.index('D')
-  except ValueError :
-    d_index = -float('inf')
-  #print(a_index, b_index, c_index, d_index)
-  return len(tokens) - min(a_index, b_index, c_index, d_index) - 1
-
 def test_loop(model, tokenizer, test):
     test_len = len(test)
     running_accuracy = 0
